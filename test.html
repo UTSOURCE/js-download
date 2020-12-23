@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>测试</title>
+</head>
+
+<body>
+<h1>测试</h1>
+<img src="" alt="" id="demo">
+<input type="button">2222</input>
+<video id="vidioID" preload="auto" autoplay="autoplay">
+    <source src="http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8" type="video/mp4"/>
+</video>
+<script>
+ var eleTextarea = document.querySelector('textarea');
+var eleButton = document.querySelector('input[type="button"]');
+var imgurl = "http://mob.utsource.net/assets/images/banners/5.png";
+// 下载文件方法
+ var funDownload = function (domImg, filename) {
+     // 创建隐藏的可下载链接
+     var eleLink = document.createElement('a');
+     eleLink.download = filename;
+     eleLink.style.display = 'none';
+     // 图片转base64地址
+     var canvas = document.createElement('canvas');
+     var context = canvas.getContext('2d');
+     var width = domImg.naturalWidth;
+     var height = domImg.naturalHeight;
+     context.drawImage(domImg, 0, 0);
+     // 如果是PNG图片，则canvas.toDataURL('image/png')
+     eleLink.href = canvas.toDataURL('image/jpeg');
+     // 触发点击
+     document.body.appendChild(eleLink);
+     eleLink.click();
+     // 然后移除
+     document.body.removeChild(eleLink);
+ };
+if ('download' in document.createElement('a')) {
+    // 作为test.html文件下载
+    eleButton.addEventListener('click', function () {
+        // funDownload("", 'test.html');    
+        // urlToBase64(imgurl);
+
+        urlToBase64(imgurl).then(res => {
+            // 转化后的base64图片地址
+            console.log('base64', res)
+        })
+    });
+} else {
+    eleButton.onclick = function () {
+        alert('浏览器不支持');    
+    };
+}
+ function toBase64(url, callback, outputFormat){//图片地址，回调，输出格式
+     var canvas,ctx ;
+     canvas = document.createElement('canvas');
+     ctx = canvas.getContext('2d');
+     img = new Image;
+     img.crossOrigin = 'Anonymous';
+     img.src = url;
+     img.onload = function(){
+         canvas.height = img.height;
+         canvas.width = img.width;
+         ctx.drawImage(img,0,0);
+         var dataURL = canvas.toDataURL(outputFormat || 'image/jpeg');
+         console.log(dataURL)
+         callback.call(this, dataURL);
+         canvas = null;
+     };
+ }
+//  toBase64('https://aliffs.utsource.net/EmailAttachment/202012/21/f_3ebac0749dd2439699519df5073d103d.PNG?x-oss-process=style/other', function(base64Img){
+//     // toBase64('http://daotechio.oss-cn-beijing.aliyuncs.com/JPG/IMG_20180907_103631_f8ecf0ac-9c82-415d-8092-a7e0c69f0457.jpg', function(base64Img){
+//  // toBase64(imgurl, function(base64Img){
+//      document.getElementById('demo').setAttribute('src',base64Img)
+//      // funDownload(base64Img,'mm.png')
+//      downloadFile('3', base64Img);
+//  });
+
+ //下载
+ function downloadFile(fileName, content) {
+     let aLink = document.createElement('a');
+     let blob = base64ToBlob(content); //new Blob([content]);
+
+     let evt = document.createEvent("HTMLEvents");
+     evt.initEvent("click", true, true);//initEvent 不加后两个参数在FF下会报错  事件类型，是否冒泡，是否阻止浏览器的默认行为
+     aLink.download = fileName;
+     aLink.href = URL.createObjectURL(blob);
+
+     // aLink.dispatchEvent(evt);
+     //aLink.click()
+     aLink.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));//兼容火狐
+ }
+ //base64转blob
+ function base64ToBlob(code) {
+     let parts = code.split(';base64,');
+     let contentType = parts[0].split(':')[1];
+     let raw = window.atob(parts[1]);
+     let rawLength = raw.length;
+
+     let uInt8Array = new Uint8Array(rawLength);
+
+     for (let i = 0; i < rawLength; ++i) {
+         uInt8Array[i] = raw.charCodeAt(i);
+     }
+     return new Blob([uInt8Array], {type: contentType});
+ }
+</script>
+</body>
+</html>
