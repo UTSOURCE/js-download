@@ -69,13 +69,13 @@ if ('download' in document.createElement('a')) {
          canvas = null;
      };
  }
-//  toBase64('https://aliffs.utsource.net/EmailAttachment/202012/21/f_3ebac0749dd2439699519df5073d103d.PNG?x-oss-process=style/other', function(base64Img){
-//     // toBase64('http://daotechio.oss-cn-beijing.aliyuncs.com/JPG/IMG_20180907_103631_f8ecf0ac-9c82-415d-8092-a7e0c69f0457.jpg', function(base64Img){
-//  // toBase64(imgurl, function(base64Img){
-//      document.getElementById('demo').setAttribute('src',base64Img)
-//      // funDownload(base64Img,'mm.png')
-//      downloadFile('3', base64Img);
-//  });
+  toBase64('https://aliffs.utsource.net/EmailAttachment/202012/21/f_3ebac0749dd2439699519df5073d103d.PNG?x-oss-process=style/other', function(base64Img){
+    // toBase64('http://daotechio.oss-cn-beijing.aliyuncs.com/JPG/IMG_20180907_103631_f8ecf0ac-9c82-415d-8092-a7e0c69f0457.jpg', function(base64Img){
+  // toBase64(imgurl, function(base64Img){
+      document.getElementById('demo').setAttribute('src',base64Img)
+      // funDownload(base64Img,'mm.png')
+      downloadFile('3', base64Img);
+  });
 
  //下载
  function downloadFile(fileName, content) {
